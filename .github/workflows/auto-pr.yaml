@@ -1,0 +1,25 @@
+name: Pull Request Action
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+      - name: trigger single Job
+        uses: appleboy/jenkins-action@master
+        with:
+          url: "http://100.20.0.129:8080/"
+          user: "Jenkins"
+          token: ${{ secrets.TOKEN }}
+          job: "PR-BUILD"
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_label: "feature, automated pr"
+          pr_title: "[Example] Simple demo"
